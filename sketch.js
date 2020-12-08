@@ -9,10 +9,14 @@ let state = 'collection';
 let nnResults;
 let loopBroken = false;
 
+let socket;
+
 function setup() {
   createCanvas(640, 480);
   video = createCapture(VIDEO);
   video.size(width, height);
+
+  socket = io.connect();
 
   facemesh = ml5.facemesh(video, modelReady);
 
@@ -101,6 +105,7 @@ function gotResults(error, results) {
   }
   console.log(results);
   nnResults = results;
+  sendToServer();
   classify();
 }
 
@@ -168,3 +173,7 @@ function restartPredictions() {
     classify();
   }
 }
+
+const sendToServer = () => {
+  socket.emit('facemesh', nnResults);
+};

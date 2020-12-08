@@ -88,7 +88,6 @@ function mousePressed() {
       } else {
         console.log('Target label not set.');
       }
-      text(targetLabel, mouseX, mouseY);
     } else if (state == 'prediction') {
       model.predict(inputs, gotResults);
     }
@@ -100,7 +99,7 @@ function gotResults(error, results) {
     console.error(error);
     return;
   }
-  console.log(results); // print label & confidence
+  console.log(results);
   nnResults = results;
   classify();
 }
@@ -111,7 +110,7 @@ function keyPressed() {
     state = 'training';
     model.normalizeData();
     let options = {
-      epochs: 50,
+      epochs: 200,
     };
     model.train(options, whileTraining, finishedTraining);
   } else if (key == 's') {
